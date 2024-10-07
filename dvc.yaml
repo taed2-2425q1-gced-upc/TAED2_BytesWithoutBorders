@@ -1,6 +1,8 @@
 stages:
-  download_data:
-    cmd: python3 download_data.py
+  collect_data:
+    cmd: python collect_data.py
+    deps:
+      - collect_data.py
     outs:
-    - data/raw/fashion_mnist/test
-    - data/raw/fashion_mnist/train
+      - data/processed/fashion_mnist_test.csv
+      - data/processed/fashion_mnist_train.csv

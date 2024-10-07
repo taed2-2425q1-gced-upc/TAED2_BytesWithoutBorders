@@ -1,7 +1,0 @@
-stages:
-  train_model:
-    cmd: python src/train_model.py fashion-mnist_train.csv models/model.pkl
-    deps:
-    - fashion-mnist_train.csv
-    outs:
-    - models/model.pkl

@@ -13,3 +13,19 @@ stages:
       md5: ec982b5fc1f2529a5aafd6c35a56c0d8.dir
       size: 31318398
       nfiles: 3
+  collect_data:
+    cmd: python collect_data.py
+    deps:
+    - path: collect_data.py
+      hash: md5
+      md5: 9430958db01cdd31c8d4fd64e3b16f9a
+      size: 557
+    outs:
+    - path: data/processed/fashion_mnist_test.csv
+      hash: md5
+      md5: ffe304cf177111c06dbf0b36efadfd18
+      size: 14883485
+    - path: data/processed/fashion_mnist_train.csv
+      hash: md5
+      md5: ca1058019e34e6451cd3457484960a0d
+      size: 88991586
