@@ -14,12 +14,12 @@ stages:
       size: 31318398
       nfiles: 3
   collect_data:
-    cmd: python collect_data.py
+    cmd: python scripts/collect_data.py
     deps:
-    - path: collect_data.py
+    - path: scripts/collect_data.py
       hash: md5
-      md5: 9430958db01cdd31c8d4fd64e3b16f9a
-      size: 557
+      md5: 71343c5870b1597b1a7b78eca76bdf60
+      size: 560
     outs:
     - path: data/processed/fashion_mnist_test.csv
       hash: md5

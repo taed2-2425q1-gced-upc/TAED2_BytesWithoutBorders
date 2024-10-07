@@ -6,7 +6,7 @@ from datasets import load_dataset
 dataset = load_dataset("zalando-datasets/fashion_mnist")
 
 # Ensure the data directory exists
-os.makedirs("data/processed", exist_ok=True)
+os.makedirs("../data/processed", exist_ok=True)
 
 # Convert to pandas DataFrames
 train_data = dataset['train'].to_pandas()
