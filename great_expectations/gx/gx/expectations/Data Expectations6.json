@@ -1,0 +1,53 @@
+{
+  "expectations": [
+    {
+      "id": "2ad5ef6c-42b8-445e-83a2-93bd9a412681",
+      "kwargs": {
+        "column": "label",
+        "max_value": 10.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "eb310af6-f011-423a-9bbd-9fc09b1d3b24",
+      "kwargs": {
+        "column": "image"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "3aecb371-c973-4402-8760-7a399f799edd",
+      "kwargs": {
+        "column": "label"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "9ab8d465-d95d-4ca3-afb4-939a4d7bf928",
+      "kwargs": {
+        "column": "image",
+        "type_": "numpy.ndarray"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_of_type"
+    },
+    {
+      "id": "16411561-831f-47d8-bc58-f1e0761f158c",
+      "kwargs": {
+        "column": "image"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_unique"
+    }
+  ],
+  "id": "75983ff9-db53-431a-966f-d23c0498a390",
+  "meta": {
+    "great_expectations_version": "1.1.2"
+  },
+  "name": "Data Expectations6",
+  "notes": null
+}

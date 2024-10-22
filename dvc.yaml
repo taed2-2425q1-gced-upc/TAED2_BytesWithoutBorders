@@ -6,3 +6,4 @@ stages:
     outs:
       - data/processed/fashion_mnist_test.csv
       - data/processed/fashion_mnist_train.csv
+

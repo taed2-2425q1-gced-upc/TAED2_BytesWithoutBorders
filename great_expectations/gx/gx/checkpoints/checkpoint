@@ -1,0 +1,12 @@
+{
+  "actions": [],
+  "id": "c8baa349-542a-4874-b16f-ef0d59ea7bf7",
+  "name": "checkpoint",
+  "result_format": "SUMMARY",
+  "validation_definitions": [
+    {
+      "id": "94bcd0ee-bdba-486e-b496-64f01e4d8682",
+      "name": "Validation definition"
+    }
+  ]
+}

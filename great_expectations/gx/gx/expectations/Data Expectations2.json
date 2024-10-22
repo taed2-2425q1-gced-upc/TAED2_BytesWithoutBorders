@@ -1,0 +1,28 @@
+{
+  "expectations": [
+    {
+      "id": "aa1f9f9d-56ef-4e80-add0-7e5736f1b84a",
+      "kwargs": {
+        "column": "label",
+        "max_value": 10.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "e8c6cae9-6bee-4598-b05b-cae135631a38",
+      "kwargs": {
+        "column": "image"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    }
+  ],
+  "id": "88de8684-fb03-4486-a6f5-99c58ae31f14",
+  "meta": {
+    "great_expectations_version": "1.1.2"
+  },
+  "name": "Data Expectations2",
+  "notes": null
+}

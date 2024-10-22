@@ -13,7 +13,7 @@ y = train_data['label']
 
 # Train the model
 #model = RandomForestClassifier()
-#model.fit(X, y)
+ #model.fit(X, y)
 
 # Save the trained model
 #joblib.dump(model, "models/model.pkl")
