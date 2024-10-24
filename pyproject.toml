@@ -36,6 +36,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+codecarbon = "^2.7.1"
 
 
 [tool.poetry.group.dev.dependencies]
