@@ -1,0 +1,36 @@
+{
+  "expectations": [
+    {
+      "id": "85a533c1-4181-4515-827a-2912e7ab6b20",
+      "kwargs": {
+        "column": "label",
+        "max_value": 10.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "1d08f181-7939-469c-9d59-c850f6083f07",
+      "kwargs": {
+        "column": "image"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "2f375f33-8f37-431b-aecf-739c2e52c5a1",
+      "kwargs": {
+        "column": "label"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    }
+  ],
+  "id": "1023249d-dce0-44ed-8817-ca2dbcaec816",
+  "meta": {
+    "great_expectations_version": "1.1.2"
+  },
+  "name": "Data Expectations3",
+  "notes": null
+}

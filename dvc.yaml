@@ -1,0 +1,9 @@
+stages:
+  collect_data:
+    cmd: python scripts/collect_data.py
+    deps:
+      - scripts/collect_data.py
+    outs:
+      - data/processed/fashion_mnist_test.csv
+      - data/processed/fashion_mnist_train.csv
+

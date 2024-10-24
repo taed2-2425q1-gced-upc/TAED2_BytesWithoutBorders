@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "abe857dd-96bd-4acf-a26b-80f67bb1d323",
+      "name": "pd dataframe asset"
+    },
+    "batch_definition": {
+      "id": "c5c48509-ac35-45e4-93f1-27c258985531",
+      "name": "batch definition"
+    },
+    "datasource": {
+      "id": "cdeeea08-7ebe-48db-b0c1-3f7ff232bf6f",
+      "name": "pandas11"
+    }
+  },
+  "id": "28b84cd7-4404-4952-8cbe-51d69b3e2673",
+  "name": "Validation definition1",
+  "suite": {
+    "id": "75983ff9-db53-431a-966f-d23c0498a390",
+    "name": "Data Expectations6"
+  }
+}
