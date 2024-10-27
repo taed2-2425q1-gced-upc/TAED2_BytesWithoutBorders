@@ -1,7 +1,9 @@
 """Main script: it includes our API initialization and endpoints."""
-
+import json
 import logging
 import pickle
+
+import numpy as np
 import torch
 from contextlib import asynccontextmanager
 from http import HTTPStatus
@@ -12,6 +14,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from codecarbon import track_emissions
 from fastapi import FastAPI, HTTPException, UploadFile, File
+from starlette.responses import JSONResponse
 
 
 class ModelSingleInput(BaseModel):
@@ -75,7 +78,19 @@ async def _predict_single_image(file: UploadFile = File(...)):
         prediction = model.predict(image)
         predicted_class = tf.argmax(prediction, axis=1).numpy()[0]
 
-        return {"predicted_class": int(predicted_class)}
+        #return {"predicted_class": int(predicted_class)}
+        response = {
+            "status": "success",
+            "data": {
+                "image_1": {
+                    "predicted_class": int(predicted_class),
+                }
+            },
+            "meta": {
+                "model_version": "v0.2",
+            }
+        }
+        return JSONResponse(content=response)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -160,3 +175,71 @@ def _predict_double_image(input: ModelDoubleInput):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/data/insights", response_model=dict)
+def training_data_insights():
+    """
+    Get insights about the training dataset, such as class distribution.
+    """
+    insights = {
+        "class_distribution": {
+            "T-shirt/top": 7000,
+            "Trouser": 7000,
+            "Pullover": 7000,
+            "Dress": 7000,
+            "Coat": 7000,
+            "Sandal": 7000,
+            "Shirt": 7000,
+            "Sneaker": 7000,
+            "Bag": 7000,
+            "Ankle boot": 7000,
+        },
+        "total_images": 70000,
+    }
+    return insights
+
+@app.get("/health", response_model=dict)
+def health_check():
+    """
+    Check the health status of the API.
+    """
+    return {"status": "healthy"}
+
+@app.get("/models/info", response_model=dict)
+def model_info():
+    """
+    Get information about the trained model.
+    """
+    info = {
+        "model_name": "Fashion Classifier",
+        "version": "1.2",
+        "architecture": "CNN",
+        "input_shape": [28, 28, 1],
+        "trained_on": "Fashion MNIST",
+        "num_classes": 10,
+    }
+    return info
+
+@app.get("/models", response_model=list)
+def list_models():
+    """
+    Get a list of available models with their metrics.
+    """
+    models = [
+        {"model_name": "Fashion Classifier", "version": "1.2", "accuracy": 0.92},
+    ]
+    return models
+
+class Feedback(BaseModel):
+    predicted_class: int
+    actual_class: int
+    image_data: list
+    comments: str = None
+
+@app.post("/feedback", response_model=dict)
+def submit_feedback(feedback: Feedback):
+    """
+    Submit feedback on a prediction.
+    """
+    return {"message": "Feedback received", "feedback": feedback.dict()}
