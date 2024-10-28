@@ -44,10 +44,7 @@ suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column="imag
 # Expectation 3: no missing labels in dataset
 suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column="label"))
 
-# Expectation 4: all images are stored as grayscale with appropriate type
-suite.add_expectation(gx.expectations.ExpectColumnValuesToBeUnique(column="image"))
-
-# Expectation 5: no duplicated entries
+# Expectation 4: no duplicated entries
 suite.add_expectation(gx.expectations.ExpectColumnValuesToBeUnique(column="image"))
 
 
