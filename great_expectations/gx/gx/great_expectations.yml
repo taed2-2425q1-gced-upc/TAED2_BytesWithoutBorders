@@ -216,5 +216,53 @@ fluent_datasources:
           batch definition:
             id: c5c48509-ac35-45e4-93f1-27c258985531
             partitioner:
+  pandas12:
+    type: pandas
+    id: 650b2853-907c-45f5-a667-bcacf592c1d6
+    assets:
+      pd dataframe asset:
+        type: dataframe
+        id: b178bc0e-7712-4e25-aabb-e73ab27b134c
+        batch_metadata: {}
+        batch_definitions:
+          batch definition:
+            id: bf1514d1-65d5-4014-bda5-baca308dbcb9
+            partitioner:
+  pandas13:
+    type: pandas
+    id: 72f343b0-0407-4505-8164-5c21b48cf0ba
+    assets:
+      pd dataframe asset:
+        type: dataframe
+        id: 2b3096d9-bfbb-4e67-b029-169611d2b0b4
+        batch_metadata: {}
+        batch_definitions:
+          batch definition:
+            id: dd343760-869e-4c9a-a440-57f0fcff4bc4
+            partitioner:
+  pandas14:
+    type: pandas
+    id: 3e677fab-af6c-49fa-95e5-2aa0c2b97de0
+    assets:
+      pd dataframe asset:
+        type: dataframe
+        id: 71cf2da7-6cff-46bc-afc8-cfdf44e1b4f8
+        batch_metadata: {}
+        batch_definitions:
+          batch definition:
+            id: 459ed6e5-d6cf-4570-8e64-62c6cb46633c
+            partitioner:
+  pandas15:
+    type: pandas
+    id: 4b598810-fa97-4979-aa8e-b41c03a4d987
+    assets:
+      pd dataframe asset:
+        type: dataframe
+        id: b9f16f73-1080-42b3-9473-7c88e6821c7a
+        batch_metadata: {}
+        batch_definitions:
+          batch definition:
+            id: 2184ec53-1923-4f40-bb6f-2c0b54abeb27
+            partitioner:
 analytics_enabled:
 data_context_id: 4b10d721-4f2a-4614-828b-05b11a4cbb70
