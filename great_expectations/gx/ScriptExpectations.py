@@ -12,7 +12,7 @@ context = gx.get_context()
 dataset = load_dataset("zalando-datasets/fashion_mnist", split='train')
 data = dataset.to_pandas()  # Convert to a Pandas DataFrame for Great Expectations
 
-datasource_name = "pandas11"
+datasource_name = "pandas15"
 
 # if datasource_name not in context.list_datasources() :
 data_source = context.data_sources.add_pandas(name=datasource_name)
@@ -31,7 +31,7 @@ print(validation_result)
 
 suite = context.suites.add(
     gx.core.expectation_suite.ExpectationSuite(
-        name="Data Expectations6",
+        name="Data Expectations10",
     )
 )
 
@@ -64,12 +64,12 @@ label_mapping = {
 
 
 validation_definition = context.validation_definitions.add(
-    gx.core.validation_definition.ValidationDefinition(name="Validation definition1", data=batch_definition, suite=suite)
+    gx.core.validation_definition.ValidationDefinition(name="Validation definition4", data=batch_definition, suite=suite)
 )
 
 
 checkpoint = context.checkpoints.add(
-    gx.checkpoint.checkpoint.Checkpoint(name="checkpoint1", validation_definitions=[validation_definition])
+    gx.checkpoint.checkpoint.Checkpoint(name="checkpoint5", validation_definitions=[validation_definition])
 )
 checkpoint_result = checkpoint.run(batch_parameters={"dataframe": data})
 print(checkpoint_result.describe())
