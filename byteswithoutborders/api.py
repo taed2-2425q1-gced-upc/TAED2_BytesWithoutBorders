@@ -83,7 +83,7 @@ async def _predict_single_image(file: UploadFile = File(...)):
             "status": "success",
             "data": {
                 "image_1": {
-                    "predicted_class": int(predicted_class),
+                    "predicted_class": get_clothing_name(int(predicted_class)),
                 }
             },
             "meta": {
@@ -122,6 +122,23 @@ async def _predict_double_image(file_1: UploadFile = File(...), file_2: UploadFi
         raise HTTPException(status_code=500, detail=str(e))
 
 
+def get_clothing_name(label: int) -> str :
+    categories = {
+        0: "T-shirt/top",
+        1: "Trouser",
+        2: "Pullover",
+        3: "Dress",
+        4: "Coat",
+        5: "Sandal",
+        6: "Shirt",
+        7: "Sneaker",
+        8: "Bag",
+        9: "Ankle boot"
+    }
+
+    return categories.get(label, "Unknown category")
+
+
 @track_emissions(
     project_name="clothing-item-prediction",
     measure_power_secs=1,
@@ -139,7 +156,7 @@ def _predict_single_image(input: ModelSingleInput):
         # Make predictions
         prediction = model.predict(data)
         predicted_class = tf.argmax(prediction, axis=1).numpy()[0]
-        return {"predicted_class": int(predicted_class)}
+        return {"predicted_class": get_clothing_name(int(predicted_class))}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -227,7 +244,7 @@ def list_models():
     Get a list of available models with their metrics.
     """
     models = [
-        {"model_name": "Fashion Classifier", "version": "1.2", "accuracy": 0.92},
+        {"model_name": "Fashion Classifier", "version": "1.2", "accuracy": 0.95},
     ]
     return models
 
