@@ -1,10 +1,13 @@
 # test_api.py
+import numpy as np
 import pytest
 from fastapi.testclient import TestClient
-from byteswithoutborders.api import app  # Adjust the path as needed
+from byteswithoutborders.api import app
 
 # Create a TestClient instance to simulate HTTP requests
 client = TestClient(app)
+
+
 
 def test_health_check():
     """Test the health endpoint."""
@@ -24,6 +27,7 @@ def test_model_info():
         "trained_on": "Fashion MNIST",
         "num_classes": 10,
     }
+
 
 def test_training_data_insights():
     """Test the training data insights endpoint."""
