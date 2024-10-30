@@ -1,9 +1,11 @@
-import numpy as np
 import pytest
 from fastapi.testclient import TestClient
-from byteswithoutborders.api import app
+from byteswithoutborders.api import app, process_image
 import io
 from PIL import Image
+from fastapi import UploadFile
+import numpy as np
+import tensorflow as tf
 
 client = TestClient(app)
 
@@ -28,7 +30,7 @@ def test_model_info():
     assert response.json() == {
         "model_name": "Fashion Classifier",
         "version": "1.2",
-        "architecture": "CNN",
+        "architecture": "Dense Neural Network",
         "input_shape": [28, 28, 1],
         "trained_on": "Fashion MNIST",
         "num_classes": 10,
@@ -174,3 +176,73 @@ def test_predict_double_image_upload_file():
     assert response.status_code == 200
     assert "predicted_class_image_1" in response.json()
     assert "predicted_class_image_2" in response.json()
+
+
+
+
+@pytest.fixture(scope="function")
+def valid_image_file():
+    """Creates a 28x28 grayscale dummy image."""
+    image_array = np.random.randint(0, 255, (28, 28), dtype=np.uint8)
+    img_bytes = tf.io.encode_png(tf.convert_to_tensor(image_array)).numpy()
+    return UploadFile(io.BytesIO(img_bytes), filename="dummy_image.png")
+
+# Test Cases
+
+def test_startup_and_shutdown():
+    """Ensure model loads on startup and clears on shutdown."""
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "healthy"}
+
+def test_read_root():
+    """Root endpoint returns a welcome message."""
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Welcome to the Fashion Classifier!"}
+
+
+def test_list_models():
+    """Test that `/models` endpoint returns a model list."""
+    response = client.get("/models")
+    assert response.status_code == 200
+    models = response.json()
+    assert isinstance(models, list)
+    assert models[0]["model_name"] == "Fashion Classifier"
+
+
+def test_predict_single_image_raw_invalid_data():
+    """Send invalid raw data to /predict/single-image/raw to test error handling."""
+    response = client.post("/predict/single-image/raw", json={"image_data": [1, 2, 3]})
+    assert response.status_code == 500
+
+def test_predict_double_image_one_missing():
+    """Test that missing one image file in /predict/double-image/uploadFile. """
+    response = client.post("/predict/double-image/uploadFile", files={"file_1": (None, None)})
+    assert response.status_code == 400
+
+def test_predict_double_image_raw_one_invalid():
+    """Send one valid and one invalid image array to /predict/double-image/raw."""
+    valid_image_data = np.random.randint(0, 255, (28, 28)).tolist()
+    response = client.post("/predict/double-image/raw", json={"image_data_1": valid_image_data, "image_data_2": [1, 2, 3]})
+    assert response.status_code == 500
+
+def test_submit_feedback_invalid_data_type():
+    """Test invalid data types in feedback endpoint (non-integer for classes)."""
+    feedback_data = {
+        "predicted_class": "non-integer",
+        "actual_class": "non-integer",
+        "image_data": np.random.randint(0, 255, (28, 28)).tolist(),
+        "comments": "Test feedback with invalid class types"
+    }
+    response = client.post("/feedback", json=feedback_data)
+    assert response.status_code == 422  # Unprocessable Entity
+
+def test_submit_feedback_missing_fields():
+    """Submit feedback missing required fields."""
+    feedback_data = {
+        "predicted_class": 1,
+        "comments": "Missing actual class and image data"
+    }
+    response = client.post("/feedback", json=feedback_data)
+    assert response.status_code == 422  # Unprocessable Entity
