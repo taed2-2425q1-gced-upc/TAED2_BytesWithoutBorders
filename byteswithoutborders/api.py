@@ -102,7 +102,7 @@ def model_info():
     info = {
         "model_name": "Fashion Classifier",
         "version": "1.2",
-        "architecture": "CNN",
+        "architecture": "Dense Neural Network",
         "input_shape": [28, 28, 1],
         "trained_on": "Fashion MNIST",
         "num_classes": 10,
