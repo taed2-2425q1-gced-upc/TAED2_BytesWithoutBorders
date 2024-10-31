@@ -64,6 +64,63 @@ async def process_image(file: UploadFile) -> tf.Tensor:
     return image
 
 
+
+@app.get("/data/insights", response_model=dict)
+def training_data_insights():
+    """
+    Get insights about the training dataset, such as class distribution.
+    """
+    insights = {
+        "class_distribution": {
+            "T-shirt/top": 7000,
+            "Trouser": 7000,
+            "Pullover": 7000,
+            "Dress": 7000,
+            "Coat": 7000,
+            "Sandal": 7000,
+            "Shirt": 7000,
+            "Sneaker": 7000,
+            "Bag": 7000,
+            "Ankle boot": 7000,
+        },
+        "total_images": 70000,
+    }
+    return insights
+
+@app.get("/health", response_model=dict)
+def health_check():
+    """
+    Check the health status of the API.
+    """
+    return {"status": "healthy"}
+
+@app.get("/models/info", response_model=dict)
+def model_info():
+    """
+    Get information about the trained model.
+    """
+    info = {
+        "model_name": "Fashion Classifier",
+        "version": "1.2",
+        "architecture": "Dense Neural Network",
+        "input_shape": [28, 28, 1],
+        "trained_on": "Fashion MNIST",
+        "num_classes": 10,
+    }
+    return info
+
+@app.get("/models", response_model=list)
+def list_models():
+    """
+    Get a list of available models with their metrics.
+    """
+    models = [
+        {"model_name": "Fashion Classifier", "version": "1.2", "accuracy": 0.95},
+    ]
+    return models
+
+
+
 @track_emissions(
     project_name="clothing-item-prediction",
     measure_power_secs=1,
@@ -78,7 +135,6 @@ async def _predict_single_image(file: UploadFile = File(...)):
         prediction = model.predict(image)
         predicted_class = tf.argmax(prediction, axis=1).numpy()[0]
 
-        #return {"predicted_class": int(predicted_class)}
         response = {
             "status": "success",
             "data": {
@@ -115,8 +171,8 @@ async def _predict_double_image(file_1: UploadFile = File(...), file_2: UploadFi
         predicted_class_2 = tf.argmax(prediction_2, axis=1).numpy()[0]
 
         return {
-            "predicted_class_image_1": int(predicted_class_1),
-            "predicted_class_image_2": int(predicted_class_2)
+            "predicted_class_image_1":  get_clothing_name(int(predicted_class_1)),
+            "predicted_class_image_2":  get_clothing_name(int(predicted_class_2))
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -187,66 +243,13 @@ def _predict_double_image(input: ModelDoubleInput):
 
         # Return predictions for both images
         return {
-            "predicted_class_image_1": int(predicted_class_1),
-            "predicted_class_image_2": int(predicted_class_2)
+            "predicted_class_image_1":  get_clothing_name(int(predicted_class_1)),
+            "predicted_class_image_2":  get_clothing_name(int(predicted_class_2))
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/data/insights", response_model=dict)
-def training_data_insights():
-    """
-    Get insights about the training dataset, such as class distribution.
-    """
-    insights = {
-        "class_distribution": {
-            "T-shirt/top": 7000,
-            "Trouser": 7000,
-            "Pullover": 7000,
-            "Dress": 7000,
-            "Coat": 7000,
-            "Sandal": 7000,
-            "Shirt": 7000,
-            "Sneaker": 7000,
-            "Bag": 7000,
-            "Ankle boot": 7000,
-        },
-        "total_images": 70000,
-    }
-    return insights
-
-@app.get("/health", response_model=dict)
-def health_check():
-    """
-    Check the health status of the API.
-    """
-    return {"status": "healthy"}
-
-@app.get("/models/info", response_model=dict)
-def model_info():
-    """
-    Get information about the trained model.
-    """
-    info = {
-        "model_name": "Fashion Classifier",
-        "version": "1.2",
-        "architecture": "CNN",
-        "input_shape": [28, 28, 1],
-        "trained_on": "Fashion MNIST",
-        "num_classes": 10,
-    }
-    return info
-
-@app.get("/models", response_model=list)
-def list_models():
-    """
-    Get a list of available models with their metrics.
-    """
-    models = [
-        {"model_name": "Fashion Classifier", "version": "1.2", "accuracy": 0.95},
-    ]
-    return models
 
 class Feedback(BaseModel):
     predicted_class: int
